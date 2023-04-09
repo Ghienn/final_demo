@@ -31,7 +31,7 @@ const light = new BABYLON.HemisphericLight(
 // Create bookshelf
 let bookshelf;
 
-function createBookshelf(height, width, depth, numShelves) {
+function createBookshelf(height, width, depth, numShelves, numColumns) {
   // Delete existing bookshelf if it exists
   if (bookshelf) {
     bookshelf.dispose();
@@ -41,19 +41,40 @@ function createBookshelf(height, width, depth, numShelves) {
   bookshelf = new BABYLON.Mesh("bookshelf", scene);
 
   // Create shelves
+  const shelfHeight = 5;
   for (let i = 0; i < numShelves; i++) {
     const shelf = BABYLON.MeshBuilder.CreateBox(
       `shelf-${i}`,
-      { height: 5, width, depth },
+      { height: shelfHeight, width, depth },
       scene
     );
+
     shelf.position.y = i * height;
     shelf.parent = bookshelf;
   }
 
+
+  // Create Columns
+
+  // const columnHeight = (numShelves - 1)  * height;
+  // const columnWidth = (numColumns - 1)  * height;
+  // for (let i = 0; i < numColumns - 1; i++) {
+  //   const column = BABYLON.MeshBuilder.CreateBox(
+  //     `column-${i}`,
+  //     { height: columnHeight, width: 5, depth },
+  //     scene
+  //   );
+
+  //   column.position.x = i * -columnWidth;
+  //   column.position.y = columnHeight / 2 ;
+  //   column.parent = bookshelf;
+  // }
+
+
   // Create sides
-  const sideWidth = (numShelves - 1)  * height;
+
   const sideThickness = 5;
+  const sideWidth = (numShelves - 1)  * height;
   const leftSide = BABYLON.MeshBuilder.CreateBox(
     "left-side",
     { height: sideWidth + sideThickness, width: sideThickness, depth },
@@ -84,7 +105,7 @@ function createBookshelf(height, width, depth, numShelves) {
   backSide.parent = bookshelf;
 }
 
-createBookshelf(100, 60, 30, 5);
+createBookshelf(100, 300, 60, 5, 2);
 
 // Update bookshelf on button click
 const updateButton = document.getElementById("update");
@@ -93,8 +114,9 @@ updateButton.addEventListener("click", () => {
   const width = Number(document.getElementById("shelf-width").value);
   const depth = Number(document.getElementById("shelf-depth").value);
   const numShelves = Number(document.getElementById("num-shelves").value);
+  const numColumns = Number(document.getElementById("num-columns").value);
 
-  createBookshelf(height, width, depth, numShelves);
+  createBookshelf(height, width, depth, numShelves, numColumns);
 });
 
 // Run render loop
