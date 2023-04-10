@@ -8,13 +8,13 @@ const scene = new BABYLON.Scene(engine);
 // Create camera
 const camera = new BABYLON.ArcRotateCamera(
   "camera",
-  -Math.PI / 2/5,
-  Math.PI / 2,
-  10,
-  new BABYLON.Vector3(0, 200, 0),
+  -Math.PI / 2.5, // alpha
+  Math.PI / 3,  // beta
+  4,            // radius
+  new BABYLON.Vector3(-100, 180, 0),
   scene
 );
-camera.setPosition(new BABYLON.Vector3(0, 200, 600));
+camera.setPosition(new BABYLON.Vector3(300, 500, 600));
 
 camera.attachControl(canvas, true);
 
@@ -24,6 +24,7 @@ const light = new BABYLON.HemisphericLight(
   new BABYLON.Vector3(1, 1, 0),
   scene
 );
+scene.clearColor = new BABYLON.Color3(0.95, 0.95, 0.95);
 
 // // Create ground
 // const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 10, height: 10 }, scene);
@@ -40,9 +41,14 @@ function createBookshelf(height, width, depth, numShelves, numColumns) {
   // Create bookshelf mesh
   bookshelf = new BABYLON.Mesh("bookshelf", scene);
 
+  //Texture
+  const material = new BABYLON.StandardMaterial("wood", scene);
+  const shelfMaterial = new BABYLON.StandardMaterial("backSideMate");
+  shelfMaterial.diffuseTexture = new BABYLON.Texture("Wood-Veneer-Architextures.jpg", scene);
+
   // Create shelves
   const shelfHeight = 5;
-  for (let i = 0; i < numShelves; i++) {
+  for (let i = 0; i < numShelves +1 ; i++) {
     const shelf = BABYLON.MeshBuilder.CreateBox(
       `shelf-${i}`,
       { height: shelfHeight, width, depth },
@@ -51,6 +57,7 @@ function createBookshelf(height, width, depth, numShelves, numColumns) {
 
     shelf.position.y = i * height;
     shelf.parent = bookshelf;
+    shelf.material = shelfMaterial;
   }
 
 
@@ -74,7 +81,7 @@ function createBookshelf(height, width, depth, numShelves, numColumns) {
   // Create sides
 
   const sideThickness = 5;
-  const sideWidth = (numShelves - 1)  * height;
+  const sideWidth = numShelves  * height;
   const leftSide = BABYLON.MeshBuilder.CreateBox(
     "left-side",
     { height: sideWidth + sideThickness, width: sideThickness, depth },
@@ -83,6 +90,7 @@ function createBookshelf(height, width, depth, numShelves, numColumns) {
   leftSide.position.x = -(width / 2);
   leftSide.position.y = sideWidth / 2;
   leftSide.parent = bookshelf;
+  leftSide.material = shelfMaterial;
 
   const rightSide = BABYLON.MeshBuilder.CreateBox(
     "right-side",
@@ -92,6 +100,7 @@ function createBookshelf(height, width, depth, numShelves, numColumns) {
   rightSide.position.x = width / 2;
   rightSide.position.y = sideWidth / 2;
   rightSide.parent = bookshelf;
+  rightSide.material = shelfMaterial;
 
   const backSide = BABYLON.MeshBuilder.CreateBox(
     "back-side",
@@ -103,9 +112,10 @@ function createBookshelf(height, width, depth, numShelves, numColumns) {
   backSide.position.y = sideWidth / 2;
   backSide.position.z = -depth/2;
   backSide.parent = bookshelf;
+  backSide.material = shelfMaterial;
 }
 
-createBookshelf(100, 300, 60, 5, 2);
+createBookshelf(100, 300, 100, 4, 2);
 
 // Update bookshelf on button click
 const updateButton = document.getElementById("update");
