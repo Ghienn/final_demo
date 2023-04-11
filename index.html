@@ -12,16 +12,6 @@
       }
 
       #ui {
-        /* position: absolute;
-        top: 10px;
-        right: 10px;
-        padding: 10px;
-        background-color: #f0f0f0;
-        border-radius: 5px;
-        border-style: solid;
-        z-index: 1;
-        height: 100%;
-        width: 25%; */
         top: 10px;
         right: 10px;
         padding: 10px;
@@ -35,9 +25,22 @@
       }
 
       .form-group {
-        margin-bottom: 10px;
-       
+        margin-bottom: 10px;  
       }
+      .textures {
+			display: flex;
+			flex-wrap: wrap;
+			padding: 10px;
+		}
+		  .textures img {
+			height: 100px;
+      width: 100px;
+			margin: 5px;
+			cursor: pointer;
+		}
+		  .textures img.selected {
+			border: 2px solid green;
+		}
 
       label {
         display: block;
@@ -78,7 +81,7 @@
 
       <div class="form-group">
         <label for="shelf-width">Shelf Width</label>
-        <input type="number" id="shelf-width" value="300" />
+        <input type="number" id="shelf-width" value="100" />
       </div>
 
       <div class="form-group">
@@ -88,12 +91,19 @@
 
       <div class="form-group">
         <label for="num-shelves">Number of Shelves</label>
-        <input type="number" id="num-shelves" value="4" />
+        <input type="number" id="num-shelves" value="2" />
       </div>
 
       <div class="form-group">
         <label for="num-columns">Number of Column</label>
         <input type="number" id="num-columns" value="2" />
+      </div>
+
+      <div class="textures">
+        <label for="material">Material</label>
+        <img alt="Wood2" src="Wood-Veneer-Architextures.jpg" class="selected">
+        <img alt="Wood1" src="Western-Red-Cedar-Stack-Architextures.jpg" >
+        <img alt="Wood3" src="Oak-Stretcher-Architextures.jpg">
       </div>
 
       <button id="update">Update</button>
